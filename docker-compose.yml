@@ -1,0 +1,39 @@
+version: '3.8'  # Defines the version of the Docker Compose file format
+
+services:
+  # MySQL service definition
+  mysql:
+    container_name: mysql-sql-bsn  # Name for the MySQL container
+    image: mysql:latest  # Corrected image name (you might want to specify a version or 'mysql' as the base image)
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Set the root password (not defined in the original file)
+      MYSQL_USER: user  # Create a user with the specified name
+      MYSQL_PASSWORD: password  # Set the password for the above user
+      MYSQL_DATABASE: book_social_network  # Create the database with the specified name
+    volumes:
+      - mysql:/var/lib/mysql  # Ensure MySQL data persists on the host machine (note the corrected path)
+    ports:
+      - "3306:3306"  # Corrected MySQL port (default MySQL port is 3306, not 5432, which is for PostgreSQL)
+    networks:
+      - spring-demo  # Attach to the spring-demo network
+    restart: unless-stopped  # Restart the container unless explicitly stopped
+
+  # MailDev service definition
+  mail-dev:
+    container_name: mail-dev-bs  # Name for the MailDev container
+    image: maildev/maildev  # MailDev container image (good)
+    ports:
+      - "1080:1080"  # Expose the MailDev web UI on port 1080
+      - "1025:1025"  # Expose the MailDev SMTP server on port 1025
+    networks:
+      - spring-demo  # Attach to the same network as MySQL
+
+# Network configuration
+networks:
+  spring-demo:
+    driver: bridge  # Define a custom bridge network for container communication
+
+# Volume configuration
+volumes:
+  mysql:
+    driver: local  # Use the local driver to store MySQL data on the host
