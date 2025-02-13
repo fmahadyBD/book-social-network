@@ -1,0 +1,80 @@
+spring:
+    datasource:
+        # Defines the database connection URL.
+        # 'jdbc:mysql://localhost:3306/book_social_network' means the connection uses MySQL on localhost (127.0.0.1) 
+        # with port 3306 and connects to the 'book_social_network' database.
+        # The corrected 'msql' to 'mysql' refers to the MySQL database.
+        url: jdbc:mysql://localhost:3306/book_social_network
+
+        # Specifies the username for connecting to the MySQL database.
+        # 'root' is the default MySQL username, but this can be changed to another user as needed.
+        username: root
+        
+        # The password to connect to the database (left empty here; should be populated with your password).
+        password: 
+        
+        # Specifies the JDBC driver to use for MySQL. This is the class name of the MySQL driver.
+        # 'com.mysql.cj.jdbc.Driver' is the correct driver for modern MySQL versions.
+        driver-class-name: com.mysql.cj.jdbc.Drivername  # Note: There's a typo in 'Drivername' — it should be 'Driver'
+    
+    jpa:
+        # JPA (Java Persistence API) is used for handling ORM (Object-Relational Mapping).
+        hibernate:
+            # 'ddl-auto' controls how Hibernate handles the schema. 'update' means Hibernate will automatically
+            # adjust the database schema to match the entities (e.g., adding/removing tables or columns).
+            ddl-auto: update
+        
+        # This disables SQL logging for Hibernate queries in the console. Set it to 'true' to enable.
+        show-sql: false
+
+        properties:
+            hibernate:
+                # 'format_sql' controls whether Hibernate will format SQL queries with proper indentation.
+                format_sql: true
+
+            # Specifies the database type for Hibernate. Here, 'mysql' indicates that Hibernate should use MySQL.
+            database: mysql  # Fixed 'msql' typo to 'mysql'
+            
+            # 'hibernate.dialect' tells Hibernate which database dialect to use for compatibility with MySQL.
+            # This setting ensures Hibernate can generate MySQL-compatible SQL queries.
+            hibernate.dialect: org.hibernate.dialect.MySQLDialect  # Fixed typo 'datbase-platform' to 'hibernate.dialect'
+    
+    mail:
+        # Specifies the mail server host (SMTP server).
+        # 'localhost' means the server is running on the same machine.
+        host: localhost
+        
+        # Specifies the port for the mail server. Port 1025 is commonly used for testing SMTP servers.
+        port: 1025
+        
+        # Username for mail server authentication (left empty here).
+        username: 
+        
+        # Password for mail server authentication (left empty here).
+        password: 
+        
+        # Configuration properties for mail settings.
+        properties:
+            mail:
+                smtp:
+                    # 'trust' allows the SMTP server to accept connections from any sender (useful in local dev environments).
+                    trust: "*"
+                    
+                    # 'auth' specifies whether authentication is required for sending mail.
+                    auth: true 
+
+                    # 'starttls' enables the use of STARTTLS, which upgrades an insecure connection to a secure one.
+                    starttls:
+                        enable: true
+                    
+                    # 'connectiontimeout' defines the time (in milliseconds) to wait for a connection to the SMTP server.
+                    # '5000' means the connection will timeout if not established within 5 seconds.
+                    connectiontimeout: 5000  # Fixed typo 'connentioninput' to 'connectiontimeout'
+                    
+                    # 'timeout' defines the time (in milliseconds) to wait for a response after a request is sent to the SMTP server.
+                    # '300' means the server will wait up to 300 milliseconds for a response before timing out.
+                    timeout: 300
+                    
+                    # 'writetimeout' controls the time (in milliseconds) to wait while sending data to the SMTP server.
+                    # '500' means the server will time out after 500 milliseconds of writing data.
+                    writetimeout: 500  # Fixed typo 'writeout' to 'writetimeout'
