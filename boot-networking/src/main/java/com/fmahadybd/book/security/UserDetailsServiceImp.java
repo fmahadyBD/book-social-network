@@ -10,19 +10,17 @@ import com.fmahadybd.book.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImp implements UserDetailsService{
+public class UserDetailsServiceImp implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-       return userRepository.findByEmail(userEmail)
-        .orElseThrow(()-> new UsernameNotFoundException("User not found"))
-    ;
+        return userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-    
+
 }

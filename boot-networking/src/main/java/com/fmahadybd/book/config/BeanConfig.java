@@ -8,24 +8,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
-public class BeanConfig {
-//learn with user details?
+import lombok.RequiredArgsConstructor;
 
-private final UserDetailsService userDetailsService;
+@Configuration
+@RequiredArgsConstructor
+public class BeanConfig {
+    // learn with user details?
+
+    private final UserDetailsService userDetailsService;
+
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
-
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    
 }

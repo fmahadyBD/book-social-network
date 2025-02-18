@@ -78,3 +78,10 @@ spring:
                     # 'writetimeout' controls the time (in milliseconds) to wait while sending data to the SMTP server.
                     # '500' means the server will time out after 500 milliseconds of writing data.
                     writetimeout: 500  # Fixed typo 'writeout' to 'writetimeout'
+
+
+application:
+    security:
+        jwt:
+            secret-key: fahim
+            expiration: 8670000
