@@ -64,3 +64,14 @@
 ---
 
 ### Thank you Bouali Ali
+
+
+## How To Run the Docker Composer:
+
+docker-compose up -d
+
+## How to get access the databases of the:
+
+docker exec -it c0a0fb454f05 mysql -u root -p
+[Docker id]
+Password will be:  MYSQL_ROOT_PASSWORD: rootpassword

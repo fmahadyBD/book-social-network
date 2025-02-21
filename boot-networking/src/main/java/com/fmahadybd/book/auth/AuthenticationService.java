@@ -4,15 +4,19 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fmahadybd.book.email.EmailService;
+import com.fmahadybd.book.email.EmailTempleteName;
 import com.fmahadybd.book.role.RoleRepository;
 import com.fmahadybd.book.user.Token;
 import com.fmahadybd.book.user.TokenRepository;
 import com.fmahadybd.book.user.User;
 import com.fmahadybd.book.user.UserRepository;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,8 +27,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final EmailService emailService;
 
-    public void register(RegistrationRequest request) {
+    @Value("${application.mailing.frontend.activation-url}")
+    private String activeUrl;
+
+    public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
 
                 // todo - better exception handling
@@ -46,8 +54,15 @@ public class AuthenticationService {
         sendValidationEmail(user);
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
+        emailService.sentEmain(
+                user.getEmail(),
+                user.getFname(),
+                EmailTempleteName.ACTIVATE_ACCOUNT,
+                activeUrl,
+                newToken,
+                "Account activation link");
     }
 
     private String generateAndSaveActivationToken(User user) {

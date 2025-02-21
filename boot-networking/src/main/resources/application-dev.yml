@@ -85,3 +85,8 @@ application:
         jwt:
             secret-key: fahim
             expiration: 8670000
+    mailing:
+        frontend:
+            activation-url: http://localhost:4200/activate-account
+server:
+  port: 8088
