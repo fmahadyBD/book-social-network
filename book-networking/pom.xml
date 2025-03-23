@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fmahadybd</groupId>
-	<artifactId>boot-networking</artifactId>
+	<artifactId>book-networking</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>boot-networking-api</name>
 	<description>Spring Boot Project</description>

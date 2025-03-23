@@ -1,39 +1,46 @@
-version: '3.8'  # Defines the version of the Docker Compose file format
+version: "3.8"
 
 services:
-  # MySQL service definition
-  mysql:
-    container_name: mysql-sql-bsn  # Name for the MySQL container
-    image: mysql:latest  # Corrected image name (you might want to specify a version or 'mysql' as the base image)
+  spring-boot-app:
+    image: your-spring-boot-image
+    build: .
+    depends_on:
+      - mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword  # Set the root password (not defined in the original file)
-      MYSQL_USER: user  # Create a user with the specified name
-      MYSQL_PASSWORD: password  # Set the password for the above user
-      MYSQL_DATABASE: book_social_network  # Create the database with the specified name
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/book_social_network?createIfItNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    ports:
+      - "8088:8088"
+    networks:
+      - spring-demo
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0 # Using the official MySQL 8.0 image
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # Set the root password for MySQL
+      MYSQL_DATABASE: book_social_network # Create the database
+    ports:
+      - "3306:3306" # Expose MySQL port
     volumes:
-      - mysql:/var/lib/mysql  # Ensure MySQL data persists on the host machine (note the corrected path)
-    ports:
-      - "3306:3306"  # Corrected MySQL port (default MySQL port is 3306, not 5432, which is for PostgreSQL)
+      - mysql-data:/var/lib/mysql # Persistent storage for MySQL data
     networks:
-      - spring-demo  # Attach to the spring-demo network
-    restart: unless-stopped  # Restart the container unless explicitly stopped
+      - spring-demo
 
-  # MailDev service definition
   mail-dev:
-    container_name: mail-dev-bs  # Name for the MailDev container
-    image: maildev/maildev  # MailDev container image (good)
+    container_name: mail-dev-bs
+    image: maildev/maildev
     ports:
-      - "1080:1080"  # Expose the MailDev web UI on port 1080
-      - "1025:1025"  # Expose the MailDev SMTP server on port 1025
+      - "1080:1080"
+      - "1025:1025"
     networks:
-      - spring-demo  # Attach to the same network as MySQL
+      - spring-demo
 
-# Network configuration
 networks:
   spring-demo:
-    driver: bridge  # Define a custom bridge network for container communication
+    driver: bridge
 
-# Volume configuration
 volumes:
-  mysql:
-    driver: local  # Use the local driver to store MySQL data on the host
+  mysql-data:
+    driver: local

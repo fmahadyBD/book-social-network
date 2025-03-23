@@ -68,7 +68,7 @@
 
 ## How To Run the Docker Composer:
 
-docker-compose up -d
+docker compose up -d
 
 ## How to get access the databases of the:
 
